@@ -13,9 +13,25 @@ from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-app = FastAPI(title="Multimodal Construction Intelligence API", version="1.0.0")
-allowed_origins = [v.strip() for v in os.getenv("CORS_ORIGINS", "http://localhost:5173").split(",") if v.strip()]
-app.add_middleware(CORSMiddleware, allow_origins=allowed_origins, allow_methods=["GET", "POST"], allow_headers=["*"])
+
+app = FastAPI(
+    title="Multimodal Construction Intelligence API",
+    version="1.0.0"
+)
+
+allowed_origins = [
+    "http://localhost:5173",
+    "https://multimodal-construction-intelligence-bice.vercel.app",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=allowed_origins,
+    allow_credentials=False,
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["*"],
+)
+
 MAX_BYTES = 6 * 1024 * 1024
 DISCLAIMER = "Preliminary AI assistance only. Not a structural certification, PPE compliance inspection, or professional engineering advice."
 
